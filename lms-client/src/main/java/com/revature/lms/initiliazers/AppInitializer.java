@@ -5,6 +5,10 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 
 import com.revature.lms.config.WebMvcConfig;
 
+
+
+
+
 public class AppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
 	@Override
@@ -15,7 +19,7 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
 
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
-		return new Class[] { WebMvcConfig.class };
+		return new Class[] {WebMvcConfig.class};
 	}
 
 	@Override

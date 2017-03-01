@@ -33,9 +33,9 @@
 
 </head>
 
-<body>
+<body ng-app="lmsApp">
 
-    <div id="wrapper">
+    <div id="wrapper" >
 
         <!-- Navigation -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
@@ -112,13 +112,13 @@
             <!-- /.row -->
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="panel panel-default">
+                    <div class="panel panel-default" ng-init="admin=false">
                         <div class="panel-heading">
-                            Holidays for the year 2017
+                            Holidays for the year 2017 <a href="" ng-click="admin=true">admin</a>
                         </div>
                         <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                        <div class="panel-body" ng-controller="holidayController as ctrl" >
+                            <table datatable="ng" dt-options="ctrl.dtOptions" dt-column-defs="ctrl.dtColumnDefs" width="100%" class="table table-striped table-bordered table-hover">
                                 <thead>
                                     <tr>
                                         <th>Date</th>
@@ -126,27 +126,34 @@
                                         <th>Day</th>
                                         <th>Reason</th>
                                         <th>Remarks</th>
+                                        <th ng-show="admin">Admin</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="odd gradeX">
-                                        <td>13</td>
-                                        <td>January</td>
-                                        <td>Friday</td>
-                                        <td>Pongal</td>
-                                        <td></td>
-                                    </tr>
-                                     <tr class="odd gradeX">
-                                        <td>26</td>
-                                        <td>January</td>
-                                        <td>Thursday</td>
-                                        <td>Republic Day</td>
-                                        <td></td>
-                                    </tr>
+                                    <tr class="odd gradeX" ng-repeat="holiday in ctrl.holidays" >
+                                        <td>{{holiday.date}}</td>
+                                        <td>{{holiday.month}}</td>
+                                        <td>{{holiday.day}}</td>
+                                        <td>{{holiday.reason}}</td>
+                                        <td>{{holiday.remarks}}</td>
+                                        <td ng-show="admin">
+                              <button type="button" ng-click="ctrl.edit(holiday.id)" class="btn btn-outline-default btn-sm">Edit</button>  <button type="button" ng-click="ctrl.remove(holiday.id)" class="btn btn-outline-primary btn-sm">Remove</button></td>
+                                    </tr>                               
                                     
                                 </tbody>
                             </table>
                             <!-- /.table-responsive -->
+                            <div ng-show="admin">
+                            <form ng-submit="ctrl.submit()" name="myForm" class="form-horizontal">
+                            <input type="hidden" ng-model="ctrl.holiday.id "/>
+                            <input type="text" placeholder="Date" ng-model="ctrl.holiday.date " />
+                            <input type="text" placeholder="Month" ng-model="ctrl.holiday.month "/>
+                            <input type="text" placeholder="Day" ng-model="ctrl.holiday.day"/>
+                            <input type="text" placeholder="Reason" ng-model="ctrl.holiday.reason "/>
+                            <input type="text" placeholder="Remarks" ng-model="ctrl.holiday.remarks"/>
+                            <input type="submit"  value="{{!ctrl.holiday.id ? 'Add' : 'Update'}}" class="btn btn-default btn-sm">                              
+                            </form>
+                            </div>
                             <div class="well">
                                 <h4>For Information</h4>
                                 <p>Holiday details for the year says the standard Saturday and Sunday as regular week
@@ -195,8 +202,10 @@ end offs.</a>.</p>
 <!-- Angular -->    
 <script type="text/javascript" src="../webjars/angularjs/1.3.8/angular.min.js"></script>
 <script type="text/javascript" src="../webjars/angularjs/1.3.8/angular-resource.min.js"></script>
+<script type="text/javascript" src="../resources/js/angular-datatables.min.js"></script>
 <script type="text/javascript" src="../resources/js/app.js"></script>
-
+<script type="text/javascript" src="../resources/js/holiday_controller.js"></script>
+<script type="text/javascript" src="../resources/js/sort_by_month.js"></script>
 </body>
 
 </html>
